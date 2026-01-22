@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { GoodsList } from './GoodsList';
 
@@ -8,9 +8,14 @@ import { Good } from './types/Good';
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const loadAll = () => {
-    getAll().then(setGoods);
+    getAll()
+      .then(setGoods)
+      .catch(() => {
+        setErrorMessage('Failed to load goods');
+      });
   };
 
   const loadFirstFive = () => {
@@ -36,6 +41,8 @@ export const App: React.FC = () => {
       <button type="button" data-cy="red-button" onClick={loadRed}>
         Load red goods
       </button>
+
+      {errorMessage && <p>{errorMessage}</p>}
 
       <GoodsList goods={goods} />
     </div>

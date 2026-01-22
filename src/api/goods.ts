@@ -3,8 +3,16 @@ import { Good } from '../types/Good';
 // eslint-disable-next-line
 const API_URL = `https://mate-academy.github.io/react_dynamic-list-of-goods/goods.json`;
 
+function checkResponse(response: Response): Promise<Good[]> {
+  if (!response.ok) {
+    return Promise.reject(new Error(`http error! status: ${response.status}`));
+  }
+
+  return response.json();
+}
+
 export function getAll(): Promise<Good[]> {
-  return fetch(API_URL).then(response => response.json());
+  return fetch(API_URL).then(checkResponse);
 }
 
 export const get5First = (): Promise<Good[]> => {
