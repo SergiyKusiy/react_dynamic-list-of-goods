@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { GoodsList } from './GoodsList';
 
@@ -19,11 +19,19 @@ export const App: React.FC = () => {
   };
 
   const loadFirstFive = () => {
-    get5First().then(setGoods);
+    get5First()
+      .then(setGoods)
+      .catch(() => {
+        setErrorMessage('Failed to load goods');
+      });
   };
 
   const loadRed = () => {
-    getRedGoods().then(setGoods);
+    getRedGoods()
+      .then(setGoods)
+      .catch(() => {
+        setErrorMessage('Failed to load goods');
+      });
   };
 
   return (
